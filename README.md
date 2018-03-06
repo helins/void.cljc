@@ -12,7 +12,7 @@ various circumstances.
 
 ## Usage
 
-Read the [API](https://dvlopt.github.io/doc/void/).
+Read the [API](https://dvlopt.github.io/doc/dvlopt/void/).
 
 For instance :
 
