@@ -1,4 +1,4 @@
-# Void
+# void
 
 [![Clojars
 Project](https://img.shields.io/clojars/v/dvlopt/void.svg)](https://clojars.org/dvlopt/void)
@@ -12,7 +12,7 @@ various circumstances.
 
 ## Usage
 
-Read the [API](https://dvlopt.github.io/doc/dvlopt/void/).
+Read the [API](https://dvlopt.github.io/doc/clojure/dvlopt/void/index.html).
 
 For instance :
 
