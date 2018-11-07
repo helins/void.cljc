@@ -45,8 +45,8 @@
   [f & args]
 
   (when (some? f)
-    `(when (some? ~f)
-       (~f ~@args))))
+    `(when-some [f'# ~f]
+       (f'# ~@args))))
 
 
 

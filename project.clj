@@ -1,5 +1,5 @@
 (defproject dvlopt/void
-            "0.0.0"
+            "0.0.1"
 
   :description "About void and the absence of information"
   :url         "https://github.com/dvlopt/void"
