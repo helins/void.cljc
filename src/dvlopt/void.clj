@@ -212,8 +212,6 @@
   
        => {:c :ok}"
 
-  ;; TODO. When empty path, return nil?
-
   [hmap path]
 
   (if (seq path)
@@ -449,7 +447,7 @@
 
   ;; Cf. `update-in`
 
-  [hmap [k & ks :as path] f]
+  [hmap [k & ks :as path] f args]
 
   (if (contains? hmap
                  k)
@@ -459,12 +457,17 @@
                     (not-empty (-update-in (get hmap
                                                 k)
                                            ks
-                                           f))
-                    (f (get hmap
-                            k))))
+                                           f
+                                           args))
+                    (apply f 
+                           (get hmap
+                                k)
+                           args)))
     (void/assoc-in hmap
                    path
-                   (f nil))))
+                   (apply f
+                          nil
+                          args))))
 
 
 
@@ -473,12 +476,15 @@
 
   "Just like standard `update-in` but once again, returning nil results in the involved key being dissociated.
   
-   Similarly to `dissoc-in`, empty maps are then recursively removed as well."
+   Similarly to `dissoc-in`, empty maps are then recursively removed as well.
+  
+   When an empty path is provided, nothing happens."
 
-  [hmap path f]
+  [hmap path f & args]
 
   (if (seq path)
     (-update-in hmap
                 path
-                f)
-    (f hmap)))
+                f
+                args)
+    (hmap)))
