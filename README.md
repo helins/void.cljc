@@ -17,7 +17,7 @@ This leads to puzzling shenanigans:
 
 ;; It contains nothing.
 
-;; This is collection containing something that is nothing:
+;; This is a collection containing something that is nothing:
 
 [nil]
 
