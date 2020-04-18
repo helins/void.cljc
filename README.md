@@ -3,57 +3,89 @@
 [![Clojars
 Project](https://img.shields.io/clojars/v/dvlopt/void.svg)](https://clojars.org/dvlopt/void)
 
-Clojure is about handling information.
+[![cljdoc badge](https://cljdoc.org/badge/dvlopt/void)](https://cljdoc.org/d/dvlopt/void)
 
-Nil represents the absence of information.
 
-This micro library proposes macros and functions for interacting with nil under
-various circumstances.
+Nil is an information representing the absence of information.
+
+This leads to puzzling shenanigans:
+
+```clj
+;; This is an empty collection, a perfectly normal phenomenon:
+
+[]
+
+;; It contains nothing.
+
+;; This is collection containing something that is nothing:
+
+[nil]
+
+;; Sometimes it is not what we want.
+
+;; This is a map containing something that is nothing, nowhere:
+
+{nil nil}
+
+;; This is seldom what we want.
+```
+
+This small library proposes macros and functions for interacting with nil under
+various circumstances. Most notably, it considers that nothing is nothing as the
+following few examples demonstrate.
+
 
 ## Usage
 
-Read the [API](https://dvlopt.github.io/doc/clojure/dvlopt/void/index.html).
+Meditate and reflect on the full [API](https://cljdoc.org/d/dvlopt/void).
 
-For instance :
+Some Socratic excerpts :
 
 ```clj
 (require '[dvlopt.void :as void])
 
 
-(void/assoc-some {}
-                 ::a 42
-                 ::b nil)
-;; => {::a 42}
+(void/assoc {}
+            :a 42
+            :b nil)
+
+;; => {:a 42}
 
 
-(def values
-     {::opt-a :a
-      ::opt-b :b})
+(void/update {:a 42
+              :b 42}
+             :b
+             (fn [x]
+               nil))
+
+;; => {:a 42}
 
 
-(def opts
-     {::opt-b :B})
+(void/dissoc-in {:a {:b {:c {:d 42}}
+                     :e 42}}
+                [:a :b :c :d])
+
+;; => {:a {:e 42}}
 
 
-(void/obtain ::opt-a
-             opts
-             values)
-;; => :a
-
-(void/obtain ::opt-b
-             opts
-             values)
-;; => :B
 
 
-(void/select [::opt-a
-              ::opt-b
-              ::opt-c]
-             opts
-             values)
-;; => {::opt-a :a
-;;     ::opt-b :B}
+(void/merge {:a 42
+             :b 42}
+            {:b nil
+             :c 42})
 
+;; => {:a 42
+;;     :c 42}
+
+
+(void/dmerge {:a {:b {:c {:d 42}}
+                  :e 42}}
+             {:a {:b {:c {:d nil}}
+                  :f 42}})
+
+;; => {:a {:e 42
+;;         :f 42}}
 ```
 
 ## License
