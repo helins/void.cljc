@@ -10,7 +10,8 @@
             [clojure.test.check.properties   :as tprop]
             [clojure.test                    :as t]
             [criterium.core                  :as ct]
-            [dvlopt.void                     :as void]))
+            [dvlopt.void                     :as void]
+            [dvlopt.void-test                :as void-test]))
 
 
 
