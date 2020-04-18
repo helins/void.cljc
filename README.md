@@ -1,4 +1,4 @@
-# void
+# Void
 
 [![Clojars
 Project](https://img.shields.io/clojars/v/dvlopt/void.svg)](https://clojars.org/dvlopt/void)
@@ -86,6 +86,11 @@ Some Socratic excerpts :
 
 ;; => {:a {:e 42
 ;;         :f 42}}
+```
+
+Run tests:
+```
+$ ./bin/kaocha
 ```
 
 ## License
