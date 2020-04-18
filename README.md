@@ -68,6 +68,15 @@ Some Socratic excerpts :
 ;; => {:a {:e 42}}
 
 
+(void/update-in {:a {:b {:c {:d 24}}
+                     :e 42}}
+                [:a :b :c :d]
+                (fn [x]
+                  (when (= x
+                           42)
+                    x)))
+
+;; => {:a {:e 42}}
 
 
 (void/merge {:a 42
@@ -86,6 +95,15 @@ Some Socratic excerpts :
 
 ;; => {:a {:e 42
 ;;         :f 42}}
+
+
+(void/prune {:a 42
+             :b {:c 42
+                 :d nil
+                 :e {:f {:g nil}}}})
+
+;; => {:a 42
+;;     :b {:c 42}}
 ```
 
 Run tests:
