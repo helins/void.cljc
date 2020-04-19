@@ -143,9 +143,9 @@
     ;; Merges recursively.
 
     (t/are [path]
-           (identical? :after
-                       (get-in merged
-                               path))
+           (keyword-identical? :after
+                               (get-in merged
+                                       path))
       [:a]
       [:b :c]
       [:b :d]

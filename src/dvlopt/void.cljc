@@ -5,8 +5,13 @@
   {:author "Adam Helinski"}
 
   (:require [clojure.core :as clj]
-            [dvlopt.void  :as void])
-  (:refer-clojure :exclude [assoc
+            #_[dvlopt.void  :as void])
+  #?(:cljs (:require-macros [dvlopt.void]))
+
+  ;; <!> Code is confusing if one does not remember this.
+  ;;
+  (:refer-clojure :exclude [#?(:cljs -assoc)
+                            assoc
                             assoc-in
                             merge
                             merge-with
@@ -75,10 +80,10 @@
 
   ([on-nil hmap k v kvs]
 
-   (let [hmap-2 (void/-assoc on-nil
-                             hmap
-                             k
-                             v)]
+   (let [hmap-2 (-assoc on-nil
+                        hmap
+                        k
+                        v)]
      (if (seq kvs)
        (recur on-nil
               hmap-2
@@ -284,9 +289,9 @@
                                                              v-r))
                                     (prune (f v-l
                                               v-r)))))
-                  (void/assoc merged
-                              k
-                              (prune v-r))))
+                  (assoc merged
+                         k
+                         (prune v-r))))
                hmap-1
                hmap-2)))
 
@@ -342,9 +347,9 @@
                                            (f (get merged 
                                                    k)
                                               v-r))
-                             (void/assoc merged
-                                         k
-                                         v-r)))
+                             (assoc merged
+                                    k
+                                    v-r)))
                          hmap-l
                          hmap-r))
             hmaps)))
@@ -391,9 +396,9 @@
 
   (if (map? node)
     (not-empty (reduce-kv (fn deeper [node-2 k v]
-                            (void/assoc node-2
-                                        k
-                                        (prune v)))
+                            (assoc node-2
+                                   k
+                                   (prune v)))
                           {}
                           node))
     node))
@@ -463,11 +468,11 @@
                            (get hmap
                                 k)
                            args)))
-    (void/assoc-in hmap
-                   path
-                   (apply f
-                          nil
-                          args))))
+    (assoc-in hmap
+              path
+              (apply f
+                     nil
+                     args))))
 
 
 

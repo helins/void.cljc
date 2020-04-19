@@ -9,3 +9,12 @@
 /.nrepl-port
 .hgignore
 .hg/
+
+
+// For running kaocha-cljs
+
+.cljs_node_repl/
+node_modules/
+package-lock.json
+tests.edn
+out
