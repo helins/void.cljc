@@ -45,11 +45,12 @@ Some Socratic excerpts :
 (require '[dvlopt.void :as void])
 
 
-(void/assoc {}
-            :a 42
-            :b nil)
+(void/assoc {:a 42}
+            :a nil
+            :b 42)
 
-;; => {:a 42}
+{:a 42
+ :b 42}
 
 
 (void/update {:a 42
@@ -58,14 +59,14 @@ Some Socratic excerpts :
              (fn [x]
                nil))
 
-;; => {:a 42}
+{:a 42}
 
 
 (void/dissoc-in {:a {:b {:c {:d 42}}
                      :e 42}}
                 [:a :b :c :d])
 
-;; => {:a {:e 42}}
+{:a {:e 42}}
 
 
 (void/update-in {:a {:b {:c {:d 24}}
@@ -76,7 +77,7 @@ Some Socratic excerpts :
                            42)
                     x)))
 
-;; => {:a {:e 42}}
+{:a {:e 42}}
 
 
 (void/merge {:a 42
@@ -84,8 +85,8 @@ Some Socratic excerpts :
             {:b nil
              :c 42})
 
-;; => {:a 42
-;;     :c 42}
+{:a 42
+ :c 42}
 
 
 (void/dmerge {:a {:b {:c {:d 42}}
@@ -93,8 +94,8 @@ Some Socratic excerpts :
              {:a {:b {:c {:d nil}}
                   :f 42}})
 
-;; => {:a {:e 42
-;;         :f 42}}
+{:a {:e 42
+     :f 42}}
 
 
 (void/prune {:a 42
@@ -102,14 +103,38 @@ Some Socratic excerpts :
                  :d nil
                  :e {:f {:g nil}}}})
 
-;; => {:a 42
-;;     :b {:c 42}}
+{:a 42
+ :b {:c 42}}
 ```
 
-Run tests:
-```
+## Run tests
+
+Run all tests (JVM and JS based ones):
+
+```bash
 $ ./bin/kaocha
 ```
+
+For Clojure only:
+
+```bash
+$ ./bin/kaocha jvm
+```
+
+For Clojurescript on NodeJS, `ws` must be installed:
+```bash
+$ npm i ws
+```
+Then:
+```
+$ ./bin/kaocha node
+```
+
+For Clojurescript in the browser (which might need to be already running):
+```bash
+$ ./bin/kaocha browser
+```
+
 
 ## License
 

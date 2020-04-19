@@ -4,8 +4,7 @@
 
   {:author "Adam Helinski"}
 
-  (:require [clojure.core :as clj]
-            #_[dvlopt.void  :as void])
+  (:require [clojure.core :as clj])
   #?(:cljs (:require-macros [dvlopt.void]))
 
   ;; <!> Code is confusing if one does not remember this.
@@ -40,10 +39,13 @@
 
    Being a macro, arguments are not evaluated until needed.
   
-   Ex. (alt nil
-            false
-            42)
-       => false"
+   ```clojure
+   (alt nil
+		false
+        42)
+
+   false
+   ```"
 
   ([]
 
@@ -106,7 +108,16 @@
 
 (defn assoc
 
-  "Behaves like standard `assoc` but associates `v` only if it is not nil."
+  "Behaves like standard `assoc` but associates `v` only if it is not nil.
+  
+   ```clojure
+   (assoc {:a 42}
+          :a nil
+          :b 42)
+
+   {:a 42
+    :b 42}
+   ```"
 
   ([hmap k v]
 
@@ -129,7 +140,9 @@
 
 (defn assoc-in
 
-  "Behaves like standard `assoc-in` but associates `v` only if it is not nil."
+  "Behaves like standard `assoc-in` but associates `v` only if it is not nil.
+
+   See also [[assoc]]."
 
   [hmap path v]
 
@@ -145,7 +158,8 @@
 
 (defn assoc-strict
 
-  "If `v` is nil, not only is it not associated, the involved key is actually removed from the map."
+  "Similar to this namespace's version of [[assoc]] but if `v` is nil, not only is it not associated, the
+   involved key is actually removed from the map."
 
   ([hmap k v]
 
@@ -170,7 +184,7 @@
 
   "Calls `f` with the given arguments only if `f` is not nil.
   
-   Being a macro, the arguments are not evaluated if there are not needed."
+   Being a macro, the arguments are not evaluated until they are needed."
 
   [f & args]
 
@@ -207,15 +221,17 @@
 
   "Deep dissoc, natural counterpart of Clojure's `assoc-in`.
   
-   It is recursive, meaning that if dissociating a key results in an empty map, that map is itself removed from its
+   It is recursive, meaning that if dissociating a key results in an empty map, this map itself is removed from its
    parent (provided it is of course nested).
   
 
-   Eg. (dissoc-in {:a {:b 42}
-                   :c :ok}
-                  [:a :b])
-  
-       => {:c :ok}"
+   ```clojure
+   (dissoc-in {:a {:b {:c {:d 42}}
+                   :e 42}}
+              [:a :b :c :d])
+   
+   {:a {:e 42}}
+   ```"
 
   [hmap path]
 
@@ -242,15 +258,18 @@
 
   "Deep merges the given maps.
   
-   Merging a key pointing to nil results in that key being dissociated. Similarly to `dissoc-in`, empty maps are recursively
+   Merging a key pointing to nil results in that key being dissociated. Similarly to [[dissoc-in]], empty maps are recursively
    removed.
   
-  
-   Eg. (dmerge {:a {:b 42}}
-               {:a {:b nil}
-                :c 42})
+   ```clojure
+   (dmerge {:a {:b {:c {:d 42}}
+                :e 42}}
+           {:a {:b {:c {:d nil}}
+                :f 42}})
 
-       => {:c 42}"
+   {:a {:e 42
+        :f 42}}
+   ```"
 
   [& hmaps]
 
@@ -262,7 +281,7 @@
 
 (defn dmerge-with*
 
-  "Like `dmerge-with`, but maps are provided in a collection."
+  "Like [[dmerge-with]], but maps are provided in a collection."
 
   ([f hmaps]
 
@@ -300,7 +319,7 @@
 
 (defn dmerge-with
 
-  "Is to `dmerge` what this namespace's version of `merge-with` is to `merge`."
+  "Is to [[dmerge]] what this namespace's version of [[merge-with]] is to [[merge]]."
 
   [f & hmaps]
 
@@ -314,13 +333,15 @@
 
   "Just like standard `merge`, but a key pointing to nil in the right map means it must be dissociated.
   
-   Eg. (merge {:a 42
-               :b 42}
-              {:b nil
-               :c 42})
-  
-        => {:a 42
-            :c 42}"
+   ```clojure
+   (merge {:a 42
+           :b 42}
+          {:b nil
+           :c 42})
+
+   {:a 42
+    :c 42}
+   ```"
 
   [& hmaps]
 
@@ -332,7 +353,7 @@
 
 (defn merge-with*
 
-  "Just like this namespace's version of `merge-with` but maps are provided in a collection."
+  "Just like this namespace's version of [[merge-with]] but maps are provided in a collection."
 
   [f hmaps]
 
@@ -359,7 +380,7 @@
 
 (defn merge-with
 
-  "Just like standard 'merge-with' but behaves like this namespace's version of `merge`: a key pointing to a nil value in a
+  "Just like standard 'merge-with' but behaves like this namespace's version of [[merge]]: a key pointing to a nil value in a
    right map means it will be dissociated. The same applies when `f` returns nil."
 
   [f & hmaps]
@@ -390,7 +411,22 @@
 
 (defn prune
 
-  "If node is a map, keys with nil values will be removed. In case of nested maps, the process is recursive."
+  "If node is a map, keys with nil values will be removed. In case of nested maps, the process is recursive.
+
+   ```clojure
+   (prune {:a 42
+           :b {:c 42
+               :d nil
+               :e {:f {:g nil}}}})
+   
+   {:a 42
+    :b {:c 42}}
+
+
+   (prune 42)
+
+   42
+   ```"
 
   [node]
 
@@ -408,7 +444,16 @@
 
 (defn update
 
-  "Just like standard `update` but returning a nil value results in the involved key being dissociated."
+  "Just like standard `update` but returning a nil value results in the involved key being dissociated.
+  
+   ```clojure
+   (update {:a 42
+            :b 42}
+           :b
+           (fn [x]
+             nil))
+
+   {:a 42}"
 
   ([hmap k f]
    (assoc-strict hmap
@@ -479,11 +524,24 @@
 
 (defn update-in
 
-  "Just like standard `update-in` but once again, returning nil results in the involved key being dissociated.
+  "Just like standard `update-in` but like this namespace's version of [[update]], returning nil
+   results in the involved key being dissociated.
   
-   Similarly to `dissoc-in`, empty maps are then recursively removed as well.
+   Similarly to [[dissoc-in]], empty maps are then recursively removed as well.
   
-   When an empty path is provided, nothing happens."
+   When an empty path is provided, nothing happens.
+  
+   ```clojure
+   (update-in {:a {:b {:c {:d 24}}
+                   :e 42}}
+              [:a :b :c :d]
+              (fn [x]
+                (when (= x
+                         42)
+                  x)))
+
+   {:a {:e 42}}
+   ```"
 
   [hmap path f & args]
 
