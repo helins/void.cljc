@@ -6,6 +6,8 @@ Project](https://img.shields.io/clojars/v/dvlopt/void.svg)](https://clojars.org/
 [![cljdoc badge](https://cljdoc.org/badge/dvlopt/void)](https://cljdoc.org/d/dvlopt/void)
 
 
+[![Clojars Downloads](https://img.shields.io/clojars/dt/dvlopt/void?color=blue&style=flat-square)](https://clojars.org/dvlopt/void)
+
 Nil is an information representing the absence of information.
 
 This leads to puzzling shenanigans:
