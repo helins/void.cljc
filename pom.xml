@@ -6,7 +6,7 @@
   <version>1.0.1</version>
   <name>Void</name>
   <description>About void and absence of information</description>
-  <url>https://github.com/dvlopt/void</url>
+  <url>https://github.com/dvlopt/void.cljc</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -19,9 +19,9 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/dvlopt/void</url>
-    <connection>scm:git:git://github.com/dvlopt/void.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/dvlopt/void.git</developerConnection>
+    <url>https://github.com/dvlopt/void.cljc</url>
+    <connection>scm:git:git://github.com/dvlopt/void.cljc.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/dvlopt/void.cljc.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <dependencies>
