@@ -96,6 +96,29 @@ We have discovered a few recognizable functions such as `assoc` and `get`. The
 [API](https://cljdoc.org/d/dvlopt/rktree) provide other ones (`dissoc`,
 `update`, and friends), all acting on this idea of having `ranks` and a `path`.
 
+## Serialization
+
+Some serializers make a distinction between sorted maps and unsorted ones. For
+instance, [Nippy](https://github.com/ptaoussanis/nippy) does.
+
+But Transit does not.
+
+The user can add the following dependency along side
+[Transit-clj](https://github.com/cognitect/transit-clj) or
+[Transit-Cljs](https://github.com/cognitect/transit-cljs):
+
+[![Clojars
+Project](https://img.shields.io/clojars/v/dvlopt/rktree.svg)](https://clojars.org/dvlopt/rktree)
+
+This package provides a read handler and a write handler:
+
+```clojure
+(require '[dvlopt.rktree.transit :as rktree.transit])
+
+rktree.transit/read-handler
+
+rktree.transit/write-handler
+```
 
 ## Run tests
 
