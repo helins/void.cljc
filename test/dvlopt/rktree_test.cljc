@@ -193,13 +193,11 @@
             :n      42
             :path   [:a :b]
             :ranks  [0 0]}
-           (rktree/pop-walk {:n 0}
-                            (sorted-map 0 (sorted-map 0 {:a {:b 42}}
+           (rktree/pop-walk (sorted-map 0 (sorted-map 0 {:a {:b 42}}
                                                       1 -42))
-                            (fn reattach-tree [ctx tree]
-                              (clj/assoc ctx
-                                         :events
-                                         tree))
+                            (fn popped-tree->acc [popped-tree]
+                              {:events popped-tree
+                               :n      0})
                             (fn f [ctx ranks path node]
                               (merge ctx
                                      {:n     node

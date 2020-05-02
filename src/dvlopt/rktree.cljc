@@ -1,54 +1,8 @@
 (ns dvlopt.rktree
 
-  "A ranktree is composed of arbitrary subtrees (regular nested maps) that are prioritized by arbitrarily nested sorted maps.
-  
-   In other words, each leaf is identified first by a vector of ranks (keys of the sorted maps) which provides ordering and then
-   by a path which provides a location. Yet in other words, those are sorted trees which have unsorted trees as leaves.
+  "README describes what ranked trees are.
 
-   A lower rank means a higher priority, 0 being thus the highest priority.
-
-   For instance:
-
-   ```clojure
-   (def rtree
-        (sorted-map 0 (sorted-map 1 {:a {:b 42}})
-                    5 {:c {:d {:e 24}}}))
-
-   (= 42
-      (ranktree/get rtree
-                    [0 1]
-                    [:a :b]))
-
-   (= (ranktree/pop rtree)
-      [(sorted-map 5 {:c {:d {:e 24}}})
-       [0 1]
-       {:a {:b 42}}])
-
-   ;; => Ordering is respected, we have popped the [:a :b] leaf with ranks [0 1] and left the rest intact
-   ```
-
-   A ranktree must start with at least one sorted map.
-
-   The magic is that is it perfectly normal to mix rank vectors of various length. The functions in this namespace automatically
-   treat missing ranks as 0 and know how to be smart about it.
-
-   ```Clojure
-   (def rtree-2
-        (ranktree/assoc rtree
-                        [0 1 0 0 0 5]
-                        [:possible?]
-                        true))
-
-   (= 42
-      ;; The [:a :b] leaf has been re-prioritized from [0 1] to [0 1 0 0 0 0]
-      (ranktree/get tree-2
-                    [0 1 0 0 0 0]
-                    [:a :b])
-      ;; But is still accessible with the ranks we used when inserting it earlier
-      (ranktree/get tree-2
-                    [0 1]
-                    [:a :b]))
-   ```"
+   This namespace provides recognizable functions for manipulating them."
 
   {:author "Adam Helinski"}
 
@@ -402,7 +356,7 @@
    |---|---|
    | 0 | tree after popping |
    | 1 | ranks that led to node |
-   | 2 | popped node at ranks |
+   | 2 | popped unsorted node at ranks |
 
    There might be no node to pop, and after popping a empty tree is returned as nil."
 
@@ -418,19 +372,19 @@
 
   ;; Cf. [[-pop-walk]]
 
-  [state ranks path node f]
+  [acc ranks path node f]
 
   (if (map? node)
-    (reduce-kv (fn deeper [state-2 k node-next]
-                 (-walk-unsorted state-2
+    (reduce-kv (fn deeper [acc-2 k node-next]
+                 (-walk-unsorted acc-2
                                  ranks
                                  (conj path
                                        k)
                                  node-next
                                  f))
-               state
+               acc
                node)
-    (f state
+    (f acc
        ranks
        path
        node)))
@@ -440,39 +394,45 @@
 
 (defn pop-walk
 
-  "Pops the given `tree`, then attaches it to `ctx` by calling `(rettach-tree ctx popped-tree)`.
-
-   Then walks (depth-first) every leaf in the popped node and pass around `ctx` by calling:
+  "Pops the given ranked `tree` and then walks the unsorted node in a depth-first manner by applying:
 
    ```clojure
-   (f ctx
+   (f acc
       ranks
       path
       leaf)
    ```
 
+   After popping but before walking the unsorted node, the popped tree is transformed into `acc`
+   by calling `popped-tree->acc` (defaulting to Clojure's `identity`).
+
    See also [[pop]]."
 
-  [ctx tree reattach-tree f]
+  ([tree f]
 
-  (if (sorted? tree)
-    (let [[tree-2
-           ranks
-           node]  (pop tree)]
-     (if (nil? node)
-       ctx
-       (-walk-unsorted (reattach-tree ctx
-                                      tree-2)
-                       ranks
-                       []
-                       node
-                       f)))
-    (-walk-unsorted (reattach-tree ctx
-                                   nil)
-                    []
-                    []
-                    tree
-                    f)))
+   (pop-walk tree
+             identity
+             f))
+
+
+  ([tree popped-tree->acc f]
+
+   (if (sorted? tree)
+     (let [[tree-2
+            ranks
+            node]  (pop tree)]
+      (if (nil? node)
+        tree-2
+        (-walk-unsorted (popped-tree->acc tree-2)
+                        ranks
+                        []
+                        node
+                        f)))
+     (-walk-unsorted (popped-tree->acc nil)
+                     []
+                     []
+                     tree
+                     f))))
 
 
 
