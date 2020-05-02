@@ -108,7 +108,7 @@ The user can add the following dependency along side
 [Transit-Cljs](https://github.com/cognitect/transit-cljs):
 
 [![Clojars
-Project](https://img.shields.io/clojars/v/dvlopt/rktree.svg)](https://clojars.org/dvlopt/rktree)
+Project](https://img.shields.io/clojars/v/dvlopt/rktree.transit.svg)](https://clojars.org/dvlopt/rktree.transit)
 
 This package provides a read handler and a write handler:
 
