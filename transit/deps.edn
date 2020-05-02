@@ -1,0 +1,22 @@
+{:deps
+ {org.clojure/clojure {:mvn/version "1.10.1"}}
+
+ :paths
+ ["src"]
+
+ :aliases
+ {:deploy
+  {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
+   :main-opts  ["-m" "deps-deploy.deps-deploy" "deploy" "rktree_transit.jar"]}
+
+  :dev
+  {:extra-deps {criterium {:mvn/version "0.4.5"}}
+   :extra-paths ["dev"]}
+
+  :jar
+  {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
+   :main-opts ["-m" "hf.depstar.jar" "rktree_transit.jar"]}
+
+  :install
+  {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
+   :main-opts ["-m" "deps-deploy.deps-deploy" "install" "rktree_transit.jar"]}}}

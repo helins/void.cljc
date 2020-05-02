@@ -8,7 +8,7 @@ Project](https://img.shields.io/clojars/v/dvlopt/rktree.svg)](https://clojars.or
 Compatible with Clojurescript.
 
 
-A `ranked` tree is a peculiar but interesting data structure. It is a form of
+A `ranked tree` is a peculiar but interesting data structure. It is a form of
 nested maps where leaves are located both in time and space. It comes in handy
 for problems that needs some form of prioritization.
 
