@@ -19,7 +19,7 @@ Feel free to clone this repo, the examples below are in
 [/dev/user.clj](dev/user.clj):
 
 ```sh
-clj -A:dev:test
+$ clj -A:dev:test
 
 # And your favorite REPL
 ```
@@ -33,7 +33,7 @@ Following this definition, the following qualifies as a `ranked tree`:
 ```
 
 Each leaf has two paths, one "horizontal" and one "vertical" (borrowing
-vocabulary from the litterature). We shall rather talk - respectively - about
+vocabulary from the litterature). We shall rather talk (respectively) about
 `ranks` providing a notion of time and a `path` providing a notion of space.
 
 Thus, `'leaf-1` is said to be located at `[:a :b]` and ranked at `[0 1]`.

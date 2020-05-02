@@ -23,6 +23,10 @@
    :main-opts ["-m" "deps-deploy.deps-deploy" "install" "rktree.jar"]}
 
   :test
-  {:extra-deps  {lambdaisland/kaocha      {:mvn/version "1.0-612"}
-                 lambdaisland/kaocha-cljs {:mvn/version "0.0-71"}}
-   :extra-paths ["test"]}}}
+  {:extra-deps  {com.cognitect/transit-clj  {:mvn/version "1.0.324"}
+                 com.cognitect/transit-cljs {:mvn/version "0.8.264"}
+                 lambdaisland/kaocha        {:mvn/version "1.0-612"}
+                 lambdaisland/kaocha-cljs   {:mvn/version "0.0-71"}}
+   :extra-paths ["test"
+                 "transit/src"
+                 "transit/test"]}}}

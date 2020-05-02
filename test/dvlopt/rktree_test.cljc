@@ -2,13 +2,26 @@
 
   {:author "Adam Helinski"}
 
-  (:require [clojure.core  :as clj]
-            [clojure.test  :as t]
-            [dvlopt.rktree :as rktree])
+  (:require [clojure.core               :as clj]
+            [clojure.test               :as t]
+            [dvlopt.rktree              :as rktree]
+            [dvlopt.rktree.transit-test :as rktree.transit-test])
   (:refer-clojure :exclude [assoc
                             dissoc
                             get
                             pop]))
+
+
+
+
+;;;;;;;;;; Miscellaneous
+
+
+(def serde
+
+  "For testing serialization as a bonus"
+
+  rktree.transit-test/serde-twice)
 
 
 
@@ -51,37 +64,42 @@
 (t/deftest assoc
 
   (t/is (= (sorted-map 1 :after)
-           (rktree/assoc (sorted-map 1 :before)
-                         [1]
-                         :after))
+           (serde
+             (rktree/assoc (sorted-map 1 :before)
+                           [1]
+                           :after)))
         "At an existing rank")
 
   (t/is (= (sorted-map 1 (sorted-map 2 42))
-           (rktree/assoc (sorted-map)
-                         [1 2]
-                         42))
+           (serde
+             (rktree/assoc (sorted-map)
+                           [1 2]
+                           42)))
         "Adding ranks")
 
   (t/is (= (sorted-map 1 (sorted-map 2 (sorted-map 0 24
                                                    3 42)))
-           (rktree/assoc (sorted-map 1 (sorted-map 2 (sorted-map 3 42)))
-                         [1 2]
-                         24))
+           (serde
+             (rktree/assoc (sorted-map 1 (sorted-map 2 (sorted-map 3 42)))
+                           [1 2]
+                           24)))
         "Completing ranks")
 
   (t/is (= (sorted-map 1 (sorted-map 0 42
                                      2 (sorted-map 3 24)))
-           (rktree/assoc (sorted-map 1 42)
-                         [1 2 3]
-                         24))
+           (serde
+             (rktree/assoc (sorted-map 1 42)
+                           [1 2 3]
+                           24)))
         "Bubbling up unranked levels")
   
   (t/is (= (sorted-map 1 {:a {:b :after}
                           :c :before})
-           (rktree/assoc (sorted-map 1 {:c :before})
-                         [1]
-                         [:a :b]
-                         :after))
+           (serde
+             (rktree/assoc (sorted-map 1 {:c :before})
+                           [1]
+                           [:a :b]
+                           :after)))
         "With a path"))
 
 
@@ -92,34 +110,39 @@
   ;; Tests `update` as well.
 
   (t/is (= (sorted-map 2 42)
-           (rktree/dissoc (sorted-map 0 (sorted-map 1 24)
-                                      2 42)
-                          [0 1]))
+           (serde
+             (rktree/dissoc (sorted-map 0 (sorted-map 1 24)
+                                        2 42)
+                            [0 1])))
         "Existing rank")
 
   (t/is (= (sorted-map 2 42)
-           (rktree/dissoc (sorted-map 0 (sorted-map 0 24)
-                                      2 42)
-                          [0]))
+           (serde
+             (rktree/dissoc (sorted-map 0 (sorted-map 0 24)
+                                        2 42)
+                            [0])))
         "Lower order rank, complete ranks using 0")
 
   (t/is (= (sorted-map 0 (sorted-map 1 24)
                        2 42)
-           (rktree/dissoc (sorted-map 0 (sorted-map 1 24)
-                                      2 42)
-                          [0]))
+           (serde
+             (rktree/dissoc (sorted-map 0 (sorted-map 1 24)
+                                        2 42)
+                            [0])))
         "Lower order rank but unable to complete using 0, hence nothing happens")
 
   (t/is (= (sorted-map 0 (sorted-map 1 42))
-           (rktree/dissoc (sorted-map 0 (sorted-map 1 42))
-                          [0 1 2 3 4]))
+           (serde
+             (rktree/dissoc (sorted-map 0 (sorted-map 1 42))
+                            [0 1 2 3 4])))
         "Higher order rank, nothing happens")
   
   (t/is (= (sorted-map 2 42)
-           (rktree/dissoc (sorted-map 0 (sorted-map 1 {:a {:b 42}})
-                                      2 42)
-                          [0 1]
-                          [:a :b]))
+           (serde
+             (rktree/dissoc (sorted-map 0 (sorted-map 1 {:a {:b 42}})
+                                        2 42)
+                            [0 1]
+                            [:a :b])))
         "Existing rank with a path"))
 
 
@@ -129,30 +152,30 @@
 (t/deftest get
 
   (t/is (= 42
-           (rktree/get (sorted-map 0 (sorted-map 1 42))
+           (rktree/get (serde (sorted-map 0 (sorted-map 1 42)))
                        [0 1]))
         "Existing rank")
 
   (t/is (= 42
-           (rktree/get (sorted-map 0 (sorted-map 0 (sorted-map 0 42)))
+           (rktree/get (serde (sorted-map 0 (sorted-map 0 (sorted-map 0 42))))
                        [0]))
         "Completing ranks with 0")
 
   (t/is (= ::not-found
-           (rktree/get (sorted-map 0 (sorted-map 1 42))
+           (rktree/get (serde (sorted-map 0 (sorted-map 1 42)))
                        [0 1 2 3]
                        nil
                        ::not-found))
         "Higher order rank, not found")
 
   (t/is (= 42
-           (rktree/get (sorted-map 0 (sorted-map 1 {:a {:b 42}}))
+           (rktree/get (serde (sorted-map 0 (sorted-map 1 {:a {:b 42}})))
                        [0 1]
                        [:a :b]))
         "Existing rank with a path")
 
   (t/is (= ::not-found
-           (rktree/get (sorted-map 0 (sorted-map 1 {:a {:b 42}}))
+           (rktree/get (serde (sorted-map 0 (sorted-map 1 {:a {:b 42}})))
                        [0 1]
                        [:a :b :c]
                        ::not-found))
@@ -168,20 +191,21 @@
   (t/is (= [(sorted-map 2 (sorted-map 3 24))
             [0 1]
             42]
-           (rktree/pop (sorted-map 0 (sorted-map 1 42)
-                                   2 (sorted-map 3 24))))
+            (rktree/pop (serde
+                          (sorted-map 0 (sorted-map 1 42)
+                                      2 (sorted-map 3 24)))))
         "Simple pop preserves the rest of the tree")
 
   (t/is (= [nil
             [0 1]
             42]
-           (rktree/pop (sorted-map 0 (sorted-map 1 42))))
+           (rktree/pop (serde (sorted-map 0 (sorted-map 1 42)))))
         "Popping a unique entry returns nil as popped tree")
 
   (t/is (= [nil
             []
             nil]
-           (rktree/pop (sorted-map)))
+           (rktree/pop (serde (sorted-map))))
         "Nothing to pop"))
 
 
@@ -193,8 +217,9 @@
             :n      42
             :path   [:a :b]
             :ranks  [0 0]}
-           (rktree/pop-walk (sorted-map 0 (sorted-map 0 {:a {:b 42}}
-                                                      1 -42))
+           (rktree/pop-walk (serde
+                              (sorted-map 0 (sorted-map 0 {:a {:b 42}}
+                                                        1 -42)))
                             (fn popped-tree->acc [popped-tree]
                               {:events popped-tree
                                :n      0})
