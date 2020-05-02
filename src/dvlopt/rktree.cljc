@@ -81,7 +81,7 @@
 
 (defn tree
 
-  "Simply provides a sorted map, reminding that a ranktree always start with at least one sorted map.
+  "Simply provides a sorted map, reminding that a ranked tree always start with at least one sorted map.
   
    Should be used just in case the implementation changes and uses something else than Clojure's sorted maps."
 
@@ -131,6 +131,21 @@
 
 
 ;;;;;;;;;; Manipulating trees
+
+
+(defn- -enforce-ranks
+
+  ;; At least one rank must be specified, there is no concept of ranked trees without
+  ;; sorted maps surrounding the root.
+
+  [ranks]
+
+  (if (seq ranks)
+    ranks
+    (throw (ex-info "Ranks cannot be empty"
+                    {::ranks ranks}))))
+
+
 
 
 (defn- -assoc-in
@@ -256,12 +271,10 @@
 
   ([tree ranks path v]
 
-   (if (seq ranks)
-     (-assoc tree
-             ranks
-             path
-             v)
-     tree)))
+   (-assoc tree
+           (-enforce-ranks ranks)
+           path
+           v)))
 
 
 
@@ -281,15 +294,13 @@
 
   ([tree ranks path]
 
-   (if (seq ranks)
-     (update tree
-             ranks
-             nil
-             (fn dissoc-in [node]
-               (when (seq path)
-                 (not-empty (void/dissoc-in node
-                                            path)))))
-     tree)))
+   (update tree
+           ranks
+           nil
+           (fn dissoc-in [node]
+             (when (seq path)
+               (not-empty (void/dissoc-in node
+                                          path)))))))
 
 
 
@@ -344,12 +355,10 @@
 
   ([tree ranks path not-found]
 
-   (if (seq ranks)
-     (-get tree
-           ranks
-           path
-           not-found)
-     tree)))
+   (-get tree
+         (-enforce-ranks ranks)
+         path
+         not-found)))
 
 
 
@@ -529,9 +538,7 @@
 
   ([tree ranks path f]
 
-   (if (seq ranks)
-     (-update tree
-              ranks
-              path
-              f)
-     tree)))
+   (-update tree
+            (-enforce-ranks ranks)
+            path
+            f)))
