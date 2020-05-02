@@ -15,6 +15,15 @@ for problems that needs some form of prioritization.
 More specifically, it is a complex of nested maps where former levels are sorted
 and latter levels are unsorted.
 
+Feel free to clone this repo, the examples below are in
+[/dev/user.clj](dev/user.clj):
+
+```sh
+clj -A:dev:test
+
+# And your favorite REPL
+```
+
 Following this definition, the following qualifies as a `ranked tree`:
 
 ```clojure
@@ -47,7 +56,7 @@ ranks with the highest priority. More precisely, we receive `[popped-tree ranks
 unsorted-node]`:
 
 ```clojure
-(= (rktree/pop my-tree
+(= (rktree/pop my-tree)
 
    [(sorted-map 5 {:a {:d {:e 'leaf-2}}})
     [0 1]
@@ -73,7 +82,7 @@ something past those ranks?
 (= 'leaf-1
    (rktree/get my-tree-2
                [0 1 0 0 0 0]
-               [:a :b])
+               [:a :b]))
 
 ;; But notice that we can still use the original ranks!
 
@@ -83,10 +92,38 @@ something past those ranks?
                [:a :b]))
 ```
 
-
 We have discovered a few recognizable functions such as `assoc` and `get`. The
 [API](https://cljdoc.org/d/dvlopt/rktree) provide other ones (`dissoc`,
 `update`, and friends), all acting on this idea of having `ranks` and a `path`.
+
+
+## Run tests
+
+Run all tests (JVM and JS based ones):
+
+```bash
+$ ./bin/kaocha
+```
+
+For Clojure only:
+
+```bash
+$ ./bin/kaocha jvm
+```
+
+For Clojurescript on NodeJS, `ws` must be installed:
+```bash
+$ npm i ws
+```
+Then:
+```
+$ ./bin/kaocha node
+```
+
+For Clojurescript in the browser (which might need to be already running):
+```bash
+$ ./bin/kaocha browser
+```
 
 ## License
 
