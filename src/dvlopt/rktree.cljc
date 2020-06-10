@@ -13,7 +13,9 @@
   ;; 
   ;; Code is confusing if one does not remember this.
   ;;
-  (:refer-clojure :exclude [assoc
+  (:refer-clojure :exclude [#?@(:cljs [-assoc
+                                       -pop])
+                            assoc
                             dissoc
                             get
                             pop
