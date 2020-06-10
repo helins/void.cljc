@@ -76,7 +76,7 @@ something past those ranks?
                    true))
 
 ;; Notice that 'leaf has been re-prioritized from [0 1] to [0 1 0 0 0 0].
-;; Order is actuall ymaintained as before, but we can account for the new
+;; Order is actually maintained as before, but we can account for the new
 ;; addition above.
 
 (= 'leaf-1
@@ -105,12 +105,12 @@ But Transit does not.
 
 The user can add the following dependency along side
 [Transit-clj](https://github.com/cognitect/transit-clj) or
-[Transit-Cljs](https://github.com/cognitect/transit-cljs):
+[Transit-cljs](https://github.com/cognitect/transit-cljs):
 
 [![Clojars
 Project](https://img.shields.io/clojars/v/dvlopt/rktree.transit.svg)](https://clojars.org/dvlopt/rktree.transit)
 
-This package provides a read handler and a write handler:
+This package provides a read handler and a write handler for sorted maps:
 
 ```clojure
 (require '[dvlopt.rktree.transit :as rktree.transit])
