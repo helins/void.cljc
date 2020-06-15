@@ -1,3 +1,2 @@
 #!/usr/bin/env sh
-rm -rf .cljs_node_repl out/ .cpcache
 clojure -A:test -m kaocha.runner "$@"
