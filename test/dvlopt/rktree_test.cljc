@@ -9,7 +9,8 @@
   (:refer-clojure :exclude [assoc
                             dissoc
                             get
-                            pop]))
+                            pop
+                            update]))
 
 
 
@@ -136,7 +137,7 @@
              (rktree/dissoc (sorted-map 0 (sorted-map 1 42))
                             [0 1 2 3 4])))
         "Higher order rank, nothing happens")
-  
+
   (t/is (= (sorted-map 2 42)
            (serde
              (rktree/dissoc (sorted-map 0 (sorted-map 1 {:a {:b 42}})
@@ -229,3 +230,93 @@
                                       :path  path
                                       :ranks ranks}))))
         "Popping and acting on the first ranked node"))
+
+
+
+(t/deftest update
+
+  (t/is (= (sorted-map 0 {:a 43})
+           (serde
+             (-> (rktree/assoc (rktree/tree)
+                               [0]
+                               [:a]
+                               42)
+                 (rktree/update [0]
+                                [:a]
+                                inc))))
+        "Updating with one rank")
+
+  (t/is (= (sorted-map 0 (sorted-map 1 {:a 43}))
+           (serde
+             (-> (rktree/assoc (rktree/tree)
+                               [0 1]
+                               [:a]
+                               42)
+                 (rktree/update [0 1]
+                                [:a]
+                                inc))))
+        "Updating with one rank")
+
+  (t/is (= (sorted-map 0 {:a 42})
+           (serde
+             (rktree/update (rktree/tree)
+                            [0]
+                            [:a]
+                            (constantly 42))))
+        "Updating non-existing path with one rank")
+
+  (t/is (= (sorted-map 0 (sorted-map 1 {:a 42}))
+           (serde
+             (rktree/update (rktree/tree)
+                            [0 1]
+                            [:a]
+                            (constantly 42))))
+        "Updating non-existing path with one rank")
+
+  (t/is (= (sorted-map 0 (sorted-map 0 {:b 24}
+                                     1 {:a 42}))
+           (serde
+             (-> (rktree/tree)
+                 (rktree/assoc [0 1]
+                               [:a]
+                               42)
+                 (rktree/update [0]
+                                [:b]
+                                (constantly 24)))))
+        "Updating at lower ranks")
+
+  (t/is (= (sorted-map 0 (sorted-map 0 {:a 42
+                                        :b 24}))
+           (serde
+             (-> (rktree/tree)
+                 (rktree/assoc [0 0]
+                               [:a]
+                               42)
+                 (rktree/update [0]
+                                [:b]
+                                (constantly 24)))))
+        "Updating at lower 0 ranks")
+
+  (t/is (= (sorted-map 0 (sorted-map 0 {:a 42}
+                                     1 {:b 24}))
+           (serde
+             (-> (rktree/tree)
+                 (rktree/assoc [0]
+                               [:a]
+                               42)
+                 (rktree/update [0 1]
+                                [:b]
+                                (constantly 24)))))
+        "Updating at higher ranks")
+  
+  (t/is (= (sorted-map 0 {:a 42
+                          :b 24})
+           (serde
+             (-> (rktree/tree)
+                 (rktree/assoc [0]
+                               [:a]
+                               42)
+                 (rktree/update [0 0]
+                                [:b]
+                                (constantly 24)))))
+        "Updating at higher 0 ranks"))

@@ -18,6 +18,10 @@
 ;;;;;;;;;;
 
 
+;(require '[nrepl.server])  (defonce server (nrepl.server/start-server :port 4000))
+
+
+
 (comment
 
   ;; Examples from README

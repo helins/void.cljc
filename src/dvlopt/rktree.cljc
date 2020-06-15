@@ -144,7 +144,7 @@
 
 (defn- -bubbling-assoc-leaf
 
-  ;; Like [[-assoc-leaf]], but incorporates a "bubbling" node which needs to be re-prioritized 
+  ;; Like [[-assoc-leaf]], but incorporates a "bubbling" node which needs to be re-prioritized.
 
   [[r & rs] path v bubbling-node]
 
@@ -442,8 +442,6 @@
 (defn- -update
 
   ;; Cf. [[update]]
-  ;;
-  ;; A bit fugly because of the nested ifs, but works perfectly.
 
   [tree [r & rs :as ranks] path f]
 
@@ -457,15 +455,17 @@
                                            rs
                                            path
                                            f))
-                       node)
+                       (if-some [leaf (f nil)]
+                         (-bubbling-assoc-leaf rs
+                                               path
+                                               leaf
+                                               node)
+                         node))
                      (if (sorted? node)
-                       (if (contains? node
-                                      0)
-                         (not-empty (-update node
+                       (not-empty (-update node
                                              [0]
                                              path
                                              f))
-                         node)
                        (if (seq path)
                          (not-empty (void/update-in node
                                                     path
