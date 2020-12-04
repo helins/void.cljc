@@ -9,6 +9,7 @@
                             assoc-in
                             merge
                             merge-with
+                            str
                             update
                             update-in]))
 
@@ -198,6 +199,23 @@
            (void/prune {:a {:b 42
                             :c {:d nil}}}))
         "Non-nil leaves are kept intact"))
+
+
+
+
+(t/deftest str
+
+  (t/is (nil? (void/str nil))
+        "Calling str with nil returns nil")
+
+  (t/is (nil? (void/str nil nil nil))
+        "Calling str with multiple nils returns nil")
+
+  (t/is (= "foobar" (void/str "foo" nil "bar"))
+        "Calling str with non-nil arguments returns non-nil")
+
+  (t/is (= "" (void/str ""))
+        "Calling str with empty string returns empty string"))
 
 
 

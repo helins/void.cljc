@@ -14,6 +14,7 @@
                             assoc-in
                             merge
                             merge-with
+                            str
                             update
                             update-in]))
 
@@ -436,6 +437,27 @@
                           {}
                           node))
     node))
+
+
+
+
+(defn str
+
+  "Just like standard `str` but calling with only nils results in a nil value being returned
+
+  ```clojure
+  (str nil nil nil)
+
+  nil
+
+
+  (str nil 1 2 nil)
+
+  \"12\""
+
+  [& xs]
+  (when (seq (remove nil? xs))
+    (apply clj/str xs)))
 
 
 
