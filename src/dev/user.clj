@@ -7,9 +7,8 @@
 
   "For daydreaming at the REPL."
 
-  (:require [helins.void      :as void]
-            [helins.void.dev  :as void.dev]
-            [helins.void-test :as void-test]))
+  (:require [helins.void     :as void]
+            [helins.void.dev :as void.dev]))
 
 
 

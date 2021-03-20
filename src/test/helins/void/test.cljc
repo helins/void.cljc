@@ -1,4 +1,4 @@
-(ns helins.void-test
+(ns helins.void.test
 
   {:author "Adam Helinski"}
 
