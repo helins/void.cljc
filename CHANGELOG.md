@@ -13,6 +13,20 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 
+
+## [1.0.2] - 2021-03-20
+
+### Added
+
+- `assoc-strict-in`
+- CLJS dev mode
+
+### Changed
+
+- Renamed org from "dvlopt" to "helins"
+- Relicensed to MPL 2.0
+
+
 ## [1.0.1] - 2020-04-19
 
 ### Added
@@ -57,7 +71,8 @@ All notable changes to this project will be documented in this file.
 - Basic API
 
 
-[Unreleased]: https://github.com/helins/void.cljc/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/helins/void.cljc/compare/1.0.2...HEAD
+[1.0.2]: https://github.com/helins/void.cljc/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/helins/void.cljc/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/helins/void.cljc/compare/0.0.1...1.0.0
 [0.0.1]: https://github.com/helins/void.cljc/compare/0.0.0...0.0.1
