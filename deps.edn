@@ -1,13 +1,13 @@
 {:aliases
  {:cljs
-  {:extra-deps {thheller/shadow-cljs {:mvn/version "RELEASE"}}
+  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.11.23"}}
    :main-opts  ["-m" "shadow.cljs.devtools.cli"]}
 
   :deploy
   {:exec-args  {:artifact  "release.jar"
                 :installer :remote}
    :exec-fn    deps-deploy.deps-deploy/deploy
-   :extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}}
+   :extra-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}}
 
   :dev
   {:extra-paths ["src/dev"
@@ -23,10 +23,11 @@
   {:exec-args  {:artifact  "release.jar"
                 :installer :local}
    :exec-fn    deps-deploy.deps-deploy/deploy
-   :extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}}
+   :extra-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}}
 
   :test
-  {:extra-deps  {lambdaisland/kaocha      {:mvn/version "1.0-612"}
+  {:extra-deps  {lambdaisland/chui        {:mvn/version "1.0.173"}
+                 lambdaisland/kaocha      {:mvn/version "1.0.829"}
                  lambdaisland/kaocha-cljs {:mvn/version "0.0-71"}}
    :extra-paths ["src/test"]}}
  
