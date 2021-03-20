@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dvlopt</groupId>
+  <groupId>io.helins</groupId>
   <artifactId>void</artifactId>
   <version>1.0.1</version>
   <name>Void</name>
   <description>About void and absence of information</description>
-  <url>https://github.com/dvlopt/void</url>
+  <url>https://github.com/helins/void.cljc</url>
   <licenses>
     <license>
       <name>Mozilla Public License Version 2.0</name>
@@ -16,12 +16,14 @@
   <developers>
     <developer>
       <name>Adam Helinski</name>
+      <email>adam@helins.io</email>
+      <url>http://www.helins.io</url>
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/dvlopt/void</url>
-    <connection>scm:git:git://github.com/dvlopt/void.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/dvlopt/void.git</developerConnection>
+    <url>https://github.com/helins/void.cljc</url>
+    <connection>scm:git:git://github.com/helins/void.cljc.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/helins/void.cljc.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <dependencies>
@@ -32,7 +34,7 @@
     </dependency>
   </dependencies>
   <build>
-    <sourceDirectory>src</sourceDirectory>
+    <sourceDirectory>src/main</sourceDirectory>
   </build>
   <repositories>
     <repository>

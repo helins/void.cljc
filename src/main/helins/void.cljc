@@ -46,9 +46,7 @@
    Being a macro, arguments are not evaluated until needed.
   
    ```clojure
-   (alt nil
-		false
-        42)
+   (alt nil false 42)
 
    false
    ```"
