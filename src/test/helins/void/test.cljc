@@ -66,6 +66,28 @@
 
 
 
+(t/deftest assoc-strict-in
+
+  (t/is (= {:a {:b 42}}
+           (void/assoc-strict-in {}
+                                 [:a :b]
+                                 42))
+        "Non-nil value")
+
+  (t/is (= {:a {:b 42}}
+           (void/assoc-strict-in {:a {:b 42}}
+                                 [:A :C]
+                                 nil))
+        "Nil value on non-existing path")
+
+  (t/is (= {:a {:b 42}}
+           (void/assoc-strict-in {:a {:b 42}
+                                  :c {:d 42}}
+                                 [:c :d]
+                                 nil))
+        "Nil value, path is removed."))
+
+
 
 (t/deftest call
 

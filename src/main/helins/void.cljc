@@ -24,6 +24,9 @@
                             update-in]))
 
 
+(declare dissoc-in)
+
+
 ;;;;;;;;;; Gathering all declarations
 
 
@@ -177,6 +180,24 @@
            k
            v
            kvs)))
+
+
+
+(defn assoc-strict-in
+
+  "Similar to this namespace's version of [[assoc-in]] but if `v` is nil, not only is it not associated, the
+   whole `path` is removed using [[dissoc-in]]."
+
+  [hmap path v]
+
+  (if (seq path)
+    (if (some? v)
+      (clojure.core/assoc-in hmap
+                             path
+                             v)
+      (dissoc-in hmap
+                 path))
+    hmap))
 
 
 
