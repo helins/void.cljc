@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.helins</groupId>
   <artifactId>void</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <name>Void</name>
   <description>About void and absence of information</description>
   <url>https://github.com/helins/void.cljc</url>
