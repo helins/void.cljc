@@ -1,10 +1,10 @@
-(ns dvlopt.void-test
+(ns helins.void-test
 
   {:author "Adam Helinski"}
 
   (:require [clojure.core :as clj]
             [clojure.test :as t]
-            [dvlopt.void  :as void])
+            [helins.void  :as void])
   (:refer-clojure :exclude [assoc
                             assoc-in
                             merge

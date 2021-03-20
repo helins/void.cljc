@@ -3,14 +3,15 @@
 ;; file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-(ns dvlopt.void
+(ns helins.void
 
   "Macros and functions for handling nil under various circumstances." 
 
   {:author "Adam Helinski"}
 
   (:require [clojure.core :as clj])
-  #?(:cljs (:require-macros [dvlopt.void]))
+  #?(:cljs (:require-macros [helins.void :refer [alt
+                                                 call]]))
 
   ;; <!> Code is confusing if one does not remember this.
   ;;

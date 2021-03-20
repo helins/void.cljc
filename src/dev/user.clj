@@ -5,10 +5,10 @@
 
 (ns user
 
-  "For daydreaming in the repl."
+  "For daydreaming at the REPL."
 
-  (:require [dvlopt.void      :as void]
-            [dvlopt.void-test :as void-test]))
+  (:require [helins.void      :as void]
+            [helins.void-test :as void-test]))
 
 
 
