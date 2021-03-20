@@ -3,22 +3,17 @@
 ;; file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-(ns user
+(ns helins.void.dev
 
   "For daydreaming at the REPL."
 
-  (:require [helins.void      :as void]
-            [helins.void.dev  :as void.dev]
-            [helins.void-test :as void-test]))
-
-
+  (:require [helins.void :as void]))
 
 
 ;;;;;;;;;;
 
 
 (comment
-
 
 
   )

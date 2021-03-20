@@ -9,12 +9,22 @@
 /.nrepl-port
 .hgignore
 .hg/
-
+.rebel_readline_history
 
 // For running kaocha-cljs
 
 .cljs_node_repl/
 node_modules/
-package-lock.json
-tests.edn
 out
+
+// Shadow-cljs
+.cljs
+.shadow-cljs/
+node_modules/
+out
+package.json
+
+/resources/public/*
+!/resources/public/index.html
+/resources/chui/*
+!/resources/chui/index.html

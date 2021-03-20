@@ -1,6 +1,8 @@
 {:aliases
- {
-  
+ {:cljs
+  {:extra-deps {thheller/shadow-cljs {:mvn/version "RELEASE"}}
+   :main-opts  ["-m" "shadow.cljs.devtools.cli"]}
+
   :deploy
   {:exec-args  {:artifact  "release.jar"
                 :installer :remote}
