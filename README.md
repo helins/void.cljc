@@ -5,6 +5,7 @@ Project](https://img.shields.io/clojars/v/io.helins/void.svg)](https://clojars.o
 
 [![Cljdoc](https://cljdoc.org/badge/io.helins/void)](https://cljdoc.org/d/io.helins/void)
 
+![CircleCI](https://circleci.com/gh/helins/void.cljc.svg?style=shield)
 
 Compatible with Clojurescript.
 
